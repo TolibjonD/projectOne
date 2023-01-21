@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Barcha mahsulotlar {% endblock title %}
+
+{% block content %}
+{% if page_obj.object_list %}
+{% for post in page_obj.object_list %}
+
+<div class="card mb-3 w-75 mx-auto">
+    <div class="row g-0">
+      <div class="col-md-4">
+        {% if post.product.photo %}
+        <img src="{{ post.product.photo.url }}" class="img-fluid rounded-start" alt="">
+        {% endif %}
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+            <h5 class="card-title">Mahsulot nomi: {{ post.product.nomi }}</h5>
+        <p class="card-text">Soltilgan miqdori: {{ post.miqdori }} -  {% if post.miqdor_birligi %} {{ post.product.miqdor_birligi }} {% endif %} </p>
+        <p>Qolgan miqdori: 
+        {% if post.product.miqdori > 0 %}
+        {{ post.product.miqdori }} {{ post.product.miqdor_birligi }} 
+        {% else %}
+        <span class="btn btn-danger">Mahsulot soltilib bo'lgan</span>
+        {% endif %}  
+        </p>
+        <p class="card-text">1 {{ post.product.miqdor_birligi }} {{ post.product.nomi }} narxi: {{ post.product.birlik_narxi }} /- so'm</p>
+        </div>
+        <div class="card-footer">
+            <p class="card-text"><small class="text-muted">Yaratilgan vaqti: {{ post.created_at }} </small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+<nav aria-label="..." class="w-75 mx-auto">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item"><a href="?page=1" class="page-link">&laquo; Birinchi</a></li>
+    <li class="page-item">
+      <a href="?pages={{ page_obj.previous_page_number }}" class="page-link">Oldingi</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <span class="page-link">Oldingi</span>
+    </li>
+    {% endif %}
+    <li class="page-item active" aria-current="page">
+      <span class="page-link"> {{ page_obj.number }} </span>
+    </li>
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}">Keyingi</a>
+    </li>
+    <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">ohirigi &raquo;</a></li>
+    {% else %}
+    <li class="page-item disabled">
+      <span class="page-link">Keyingi</span>
+    </li>
+    
+    {% endif %}
+  </ul>
+</nav>
+{% else %}
+<div class="w-75 mx-auto">
+  Sotilgan mahsulotlar mavjud emas.
+</div>
+{% endif %}
+
+{% endblock content %}

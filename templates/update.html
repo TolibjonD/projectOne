@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Ma'lumotlarni yangilash {% endblock title %}
+
+{% block content %}
+
+<h1>Ma'lumotlarni yangilash</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+{{ form |crispy }}
+<button type="submit" class="btn btn-primary mt-2">Yuborish</button>
+</form>
+
+{% endblock content %}

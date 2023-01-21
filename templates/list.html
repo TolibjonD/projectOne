@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Barcha mahsulotlar {% endblock title %}
+
+{% block content %}
+<form action="" method="get">
+  <div class="input-group mb-3 w-75 mx-auto">
+    <input type="text" class="form-control" name="q" value="{{ search }}" placeholder="Qidiruv" aria-label="Recipient's username" aria-describedby="button-addon2">
+    <button class="btn btn-primary" type="submit" id="button-addon2">Button</button>
+  </div>
+</form>
+{% if page_obj %}
+{% for post in page_obj.object_list %}
+
+<div class="card mb-3 w-75 mx-auto">
+    <div class="row g-0">
+      <div class="col-md-4">
+        {% if post.photo %}
+        <img src="{{ post.photo.url }}" class="img-fluid rounded-start" alt="">
+        {% endif %}
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          {% if post.miqdori > 0 %}
+          <h5 class="card-title">Mahsulot nomi: <a href="{% url 'info' post.pk %}">{{ post.nomi }}</a></h5>
+            {% else %}
+            <h5 class="card-title">Mahsulot nomi: <a href="{% url 'info' post.pk %}"><strike>{{ post.nomi }}</strike></a></h5>
+            {% endif %}
+        <p class="card-text">Miqdori: {% if post.miqdori > 0 %}
+                                      {{ post.miqdori }}
+                                      -  {% if post.miqdor_birligi %} {{ post.miqdor_birligi }} {% endif %}
+                                      {% else %}
+                                      <span class="btn btn-danger">Mahsulot sotilib bo'lingan. Bazada yo'q.</span>
+                                      {% endif %}
+                                       </p>
+        <p class="card-text">1 {{ post.miqdor_birligi }} {{ post.nomi }} narxi: {{ post.birlik_narxi }} /- so'm</p>
+        </div>
+        <div class="card-footer">
+            <p class="card-text"><small class="text-muted">Yaratilgan vaqti: {{ post.created_at }} </small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+<nav aria-label="..." class="w-75 mx-auto">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item"><a href="?page=1" class="page-link">&laquo; Birinchi</a></li>
+    <li class="page-item">
+      <a href="?pages={{ page_obj.previous_page_number }}" class="page-link">Oldingi</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <span class="page-link">Oldingi</span>
+    </li>
+    {% endif %}
+    <li class="page-item active" aria-current="page">
+      <span class="page-link"> {{ page_obj.number }} </span>
+    </li>
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}">Keyingi</a>
+    </li>
+    <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">ohirigi &raquo;</a></li>
+    {% else %}
+    <li class="page-item disabled">
+      <span class="page-link">Keyingi</span>
+    </li>
+    
+    {% endif %}
+  </ul>
+</nav>
+{% else %}
+Mahsulotlar joylanmagan <a href="{% url 'add' %}" class="btn btn-info">Mahsulot joylash</a>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Mahsulot haqida {% endblock title %}
+
+{% block content %}
+
+<div class="card mb-3 w-85 mx-auto">
+    <div class="row g-0">
+      <div class="col-md-4">
+        {% if object.photo %}
+        <img src="{{ object.photo.url }}" class="img-fluid rounded-start" alt="">
+        {% endif %}
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          {% if object.miqdori > 0 %}
+          <h5 class="card-title">Mahsulot nomi: {{ object.nomi }}</h5>
+            {% else %}
+            <h5 class="card-title">Mahsulot nomi: <strike>{{ object.nomi }}</strike></h5>
+            {% endif %}
+        <p class="card-text">Miqdori: 
+        {% if object.miqdori > 0 %}
+        {{ object.miqdori }} {% if object.miqdor_birligi %} - {{ object.miqdor_birligi }} {% endif %}
+        <p class="card-text">Birlik narxi: {{ object.birlik_narxi }} /- so'm</p>
+        <p class="card-text">Umumiy narxi: {% widthratio object.birlik_narxi 1 object.miqdori %} /- so'm</p>
+        {% else %}
+        <spa class="btn btn-danger">Mahsulot sotib tugatilgan</spa>
+        <p class="card-text"> 1 {{ object.miqdor_birligi }} {{ object.nomi }}   <strong>{{ object.birlik_narxi }}</strong> /- so'mdan sotildi.</p>
+        {% endif %}  
+        </p>
+        <p class="card-text"><strong>Qo'shimcha ma'lumot:</strong> {{ object.tavsif }} </p
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"> 
+                <a href="{% url 'update' object.pk %}" class="btn btn-primary">O'zgartirish</a> 
+                <a href="{% url 'delete' object.pk %}" class="btn btn-primary">O'chirish</a> 
+                <a href="{% url 'products' %}" class="btn btn-primary mt-2">Barcha mahsulotlar</a> 
+                {% if object.miqdori > 0 %}
+                <a href="{% url 'sold' %}?product={{ object.id }}" class="btn btn-primary mt-2">Sotilganlarga qo'shish</a> 
+                {% else %}
+                <a href="{% url 'sold' %}?product={{ object.id }}" class="btn btn-primary mt-2 disabled">Sotilganlarga qo'shish</a> 
+                {% endif %}
+               
+            </li>
+            </ul>
+        </div>
+        <div class="card-footer">
+            <p class="card-text"><small class="text-muted">Yaratilgan vaqti: {{ object.created_at }} </small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="mt-4">{{ object.nomi }} - mahsulotini savdo tarixi:</h4>
+  <hr> 
+  {% if object.soldproducts.exists %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Mahsulot nomi</th>
+        <th scope="col">Miqdori</th>
+        <th scope="col">Pul miqdori</th>
+        <th scope="col">Sana</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      {% for history in object.soldproducts.all %}
+      <tr>
+        <th scope="row"> {{ history.id }} </th>
+        <td> {{ history.product.nomi }} </td>
+        <td> {{ history.miqdori }} {{ history.product.miqdor_birligi }} </td>
+        <td> {% widthratio history.miqdori 1 history.product.birlik_narxi %} /- so'm </td>
+        <td> {{ history.created_at|date:"d/m/Y G:i" }} </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>Savdo tarixi mavjud emas.</p>
+  {% endif %}
+{% endblock content %}
