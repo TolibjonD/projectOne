@@ -22,6 +22,7 @@ class SoldProducts(models.Model):
     miqdori = models.PositiveIntegerField(
         null=True, help_text="Sotilgan mahsulot miqdorini kiriting."
     )
+    sold_product_price = models.FloatField(default=0)
     created_at = models.DateTimeField(default=timezone.now)
     def get_absolute_url(self):
         return reverse("products/list")

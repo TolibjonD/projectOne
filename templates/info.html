@@ -28,7 +28,7 @@
         <p class="card-text"> 1 {{ object.miqdor_birligi }} {{ object.nomi }}   <strong>{{ object.birlik_narxi }}</strong> /- so'mdan sotildi.</p>
         {% endif %}  
         </p>
-        <p class="card-text"><strong>Qo'shimcha ma'lumot:</strong> {{ object.tavsif }} </p
+        <p class="card-text"><strong>Qo'shimcha ma'lumot:</strong> {{ object.tavsif|safe }} </p
             <ul class="list-group list-group-flush">
               <li class="list-group-item"> 
                 <a href="{% url 'update' object.pk %}" class="btn btn-primary">O'zgartirish</a> 
@@ -59,7 +59,7 @@
         <th scope="col">#</th>
         <th scope="col">Mahsulot nomi</th>
         <th scope="col">Miqdori</th>
-        <th scope="col">Pul miqdori</th>
+        <th scope="col">Narxi</th>
         <th scope="col">Sana</th>
       </tr>
     </thead>
@@ -69,7 +69,7 @@
         <th scope="row"> {{ history.id }} </th>
         <td> {{ history.product.nomi }} </td>
         <td> {{ history.miqdori }} {{ history.product.miqdor_birligi }} </td>
-        <td> {% widthratio history.miqdori 1 history.product.birlik_narxi %} /- so'm </td>
+        <td> {{ history.sold_product_price }} /- so'm </td>
         <td> {{ history.created_at|date:"d/m/Y G:i" }} </td>
       </tr>
       {% endfor %}

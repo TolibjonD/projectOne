@@ -48,11 +48,13 @@ class SoldProductsView(LoginRequiredMixin ,CreateView):
     def post(self, request):
         sold_product = request.POST['sold_product']
         product_id = request.POST['product_id']
+        sold_product_price = request.POST['sold_product_price']
         if product_id and sold_product:
             product = AllProducts.objects.get(id=product_id)
             SoldProducts.objects.create(
                 product = AllProducts.objects.get(id=product_id),
-                miqdori = sold_product
+                miqdori = sold_product,
+                sold_product_price = sold_product_price
             )
             product.miqdori = int(product.miqdori) - int(sold_product)
             product.save()
