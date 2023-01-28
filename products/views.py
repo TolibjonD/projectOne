@@ -14,6 +14,19 @@ from django.contrib import messages
 class HomePageView(TemplateView):
     template_name = 'home.html'
 
+class FinishedProductsView(LoginRequiredMixin, View):
+    def get(self, request):
+        products = AllProducts.objects.all().filter(miqdori=0)
+        paginator = Paginator(products, 4)
+        current_page_number = request.GET.get('page', 1)
+        page_obj = paginator.get_page(current_page_number)
+        return render(
+            request,
+            "finished.html",
+            {"page_obj":page_obj}
+        )
+
+
 class SoldPrListView(LoginRequiredMixin ,ListView):
     def get(self, request):
         products = SoldProducts.objects.all().order_by('-id')
