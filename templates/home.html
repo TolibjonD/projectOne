@@ -2,13 +2,22 @@
 {% block title %} Bosh sahifa {% endblock title %}
 
 {% block content %}
-
+{% if user.is_authenticated %}
 <div class="card w-85 mb-3 mx-auto">
-    <div class="card-body">
-      <h5 class="card-title">Assalomu aleykum !...</h5>
-      <p class="card-text">Sahifadan foydalanish uchun oldin websaytga kirish zarur...</p>
-      <a href="{% url 'login' %}" class="btn btn-primary">Kirish</a>
-    </div>
+  <div class="card-body">
+    <h5 class="card-title">Assalomu aleykum !...</h5>
+    <p class="card-text">Sahifadan foydalanishingiz mumkin. Siz saytga allaqachon kirgansiz !...</p>
   </div>
+</div>
+{% else %}
+<div class="card w-85 mb-3 mx-auto">
+  <div class="card-body">
+    <h5 class="card-title">Assalomu aleykum !...</h5>
+    <p class="card-text">Sahifadan foydalanish uchun oldin websaytga kirish zarur...</p>
+    <a href="{% url 'login' %}" class="btn btn-primary">Kirish</a>
+  </div>
+</div>
+{% endif %}
+
 
 {% endblock content %}
