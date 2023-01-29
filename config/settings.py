@@ -1,4 +1,4 @@
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-#_5(+h1ue=vu7go(13#e+ae6j&tv+oa(gcjx*f$-v$7=qob#t0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1' , '.pythonanywhere.com']
+ALLOWED_HOSTS = ['*','127.0.0.1' , '.pythonanywhere.com']
 
 
 # Application definition
@@ -109,6 +109,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
+STATIC_ROOT =os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = str(BASE_DIR.joinpath('media'))
 
