@@ -7,6 +7,7 @@ class AllProducts(models.Model):
     miqdori = models.PositiveIntegerField()
     miqdor_birligi = models.CharField(max_length=150, help_text="O'lchov birligini kiriting: Kg, Tonna, Vagon, Litr, Dona", null=True)
     birlik_narxi = models.FloatField(null=True)
+    sotiladigan_narxi = models.FloatField(null=True)
     tavsif = models.TextField()
     photo = models.ImageField(upload_to='images/' , default="images/no-image.jpg")
     created_at = models.DateTimeField(auto_now_add=True, null=True)

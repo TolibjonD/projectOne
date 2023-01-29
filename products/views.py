@@ -64,7 +64,7 @@ class SoldProductsView(LoginRequiredMixin ,CreateView):
 class ProductCreateVeiw(LoginRequiredMixin , SuccessMessageMixin ,CreateView):
     model = AllProducts
     template_name = "add.html"
-    fields = ("nomi" , "miqdori", "miqdor_birligi" , "birlik_narxi" , "tavsif" , "photo")
+    fields = ("nomi" , "miqdori", "miqdor_birligi" , "birlik_narxi", "sotiladigan_narxi" , "tavsif" , "photo")
     success_message = "Maxsulot muvaffaqiyatli ravishda qo'shildi ."
 
 class PrDetailView(LoginRequiredMixin , DetailView):
@@ -93,7 +93,7 @@ class PrListView(LoginRequiredMixin, View):
 class PrUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     model = AllProducts
     template_name = "update.html"
-    fields = ("nomi" , "miqdori", "miqdor_birligi" , "birlik_narxi"  , "tavsif" , "photo")
+    fields = ("nomi" , "miqdori", "miqdor_birligi" , "birlik_narxi" , "sotiladigan_narxi" , "tavsif" , "photo")
     success_message = "Ma'lumotlar muvaffaqiyatli ravishda yangilandi ."
 
 class PrDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
